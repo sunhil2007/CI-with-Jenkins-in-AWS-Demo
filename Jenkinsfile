@@ -15,7 +15,7 @@ pipeline {
         stage('Deploy') { 
             steps {
             	echo "Deploying code using pipeline.."
-                sh "pwd"
+                sh "hostname"
             }
         }
     }
