@@ -15,7 +15,7 @@ pipeline {
         stage('Deploy') { 
             steps {
             	echo "Deploying code using pipeline.."
-                sh "scp -v -o StrictHostKeyChecking=no /tmp/abcd.txt sunhil2007@devops3-tomcat:/tmp/."
+                sh "scp -v -o StrictHostKeyChecking=no /tmp/abcd.txt tomcat8@devops3-tomcat:/tmp/."
             }
         }
     }
