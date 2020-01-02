@@ -12,10 +12,19 @@ pipeline {
             	echo "Testing code using pipeline.."
             }
         }
+        stage('Archive') { 
+            steps {
+            	echo "Archiving Artifacts..."
+                sh "archiveArtifacts 'project/target/*.war'"
+            }
+        }
+        
+        
+        
         stage('Deploy') { 
             steps {
             	echo "Deploying code using pipeline.."
-                sh "scp -v -o StrictHostKeyChecking=no /tmp/abcd.txt tomcat8@devops3-tomcat:/tmp/."
+                sh "deploy adapters: [tomcat9(credentialsId: '327c0133-dbef-4f1f-b0f8-fd62efb730f8', path: '', url: 'http://35.238.182.141:8080')], contextPath: null, onFailure: false, war: '**/*.war'"               
             }
         }
     }
