@@ -14,7 +14,7 @@ pipeline {
         }
         stage('Sonarqube') {
         environment {
-            scannerHome = tool 'SonarQubeScanner'
+            scannerHome = tool 'Superleague-Sprint-3'
             }
             steps {
                 withSonarQubeEnv('sonarqube') {
