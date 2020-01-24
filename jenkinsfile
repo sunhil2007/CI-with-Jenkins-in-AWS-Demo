@@ -3,7 +3,12 @@ pipeline {
     environment{
         rtMaven = Artifactory.newMavenBuild()
         rtServer = Artifactory.server 'ART'
-        rtMaven.deployer server: server, releaseRepo: 'libs-release-local', snapshotRepo: 'libs-snapshot-local'
+        rtMavenDeployer (
+            id: 'deployer-unique-id',
+            serverId: 'ART',
+            releaseRepo: 'libs-release-local',
+            snapshotRepo: 'libs-snapshot-local'
+        )
     }
     stages {
 
