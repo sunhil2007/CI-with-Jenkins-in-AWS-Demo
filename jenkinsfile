@@ -1,7 +1,9 @@
 pipeline {
     agent any
-    rtMaven 'Artifactory.newMavenBuild()'
-    rtServer 'ART'
+    environment{
+        rtMaven = Artifactory.newMavenBuild()
+        rtServer = Artifactory.server 'ART'
+    }
     stages {
 
         stage('Build') { 
