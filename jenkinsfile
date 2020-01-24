@@ -1,0 +1,22 @@
+pipeline {
+    agent any
+    stages {
+        stage('Build') { 
+            steps {
+                echo "Building code using pipeline.."
+                sh "mvn clean package"
+            }
+        }
+        stage('Test') { 
+            steps {
+                echo "Testing code using pipeline.."
+            }
+        }
+        stage('Archive') { 
+            steps {
+                echo "Archiving Artifacts..."
+                archiveArtifacts 'project/target/*.war'
+            }
+        }
+    }
+}
