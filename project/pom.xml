@@ -27,7 +27,8 @@
             <scope>provided</scope>
         </dependency>
     </dependencies>
-
+     <dependencies>
+    </dependencies>
     <profiles>
         <profile>
             <id>assembly</id>
