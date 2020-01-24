@@ -14,7 +14,7 @@ pipeline {
         }
         stage('Sonarqube') {
         environment {
-            scannerHome = tool 'Superleague-Sprint-3'
+            scannerHome = "/var/lib/jenkins/tools/hudson.plugins.sonar.SonarRunnerInstallation/null/"
             }
             steps {
                 withSonarQubeEnv('sonarqube') {
