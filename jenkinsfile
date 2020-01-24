@@ -27,6 +27,7 @@ pipeline {
         stage('Artifactory') {
             steps {
                 echo "Artifactory Step"
+                rtMaven.deployer server: rtServer, releaseRepo: 'libs-release-local', snapshotRepo: 'libs-snapshot-local'
             }
         }
         stage('Archive') { 
