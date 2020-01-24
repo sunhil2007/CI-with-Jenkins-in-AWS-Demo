@@ -1,7 +1,7 @@
 pipeline {
     agent any
     rtMaven 'Artifactory.newMavenBuild()'
-    rtServer 'Artifactory.server 'ART''
+    rtServer 'ART'
     stages {
 
         stage('Build') { 
