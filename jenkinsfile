@@ -1,9 +1,9 @@
 pipeline {
     agent any
-    
-    
+    rtMaven 'Artifactory.newMavenBuild()'
+    rtServer 'Artifactory.server 'ART''
     stages {
-    rtServer = Artifactory.server 'ART'
+
         stage('Build') { 
             steps {
                 echo "Building code using pipeline.."
