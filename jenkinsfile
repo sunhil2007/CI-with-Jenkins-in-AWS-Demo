@@ -10,6 +10,7 @@ pipeline {
             steps {
                 echo "Building code using pipeline.."
                 sh "mvn clean package"
+                junit(allowEmptyResults: true, testResults: '**/target/surefire-reports/TEST-*.xml')
             }
         }
         stage('Test') { 
