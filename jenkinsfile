@@ -1,5 +1,7 @@
 pipeline {
     agent any
+    def rtServer=Artifactory.server 'ART'
+    def rtMaven=Artifactory.newMavenBuild()
     stages {
         stage('Build') { 
             steps {
@@ -18,7 +20,13 @@ pipeline {
                 sh "/var/lib/jenkins/tools/hudson.plugins.sonar.SonarRunnerInstallation/null/bin/sonar-scanner"
             }
             }
-        }    
+        }
+        stage('Artifactory') {
+            steps {
+                echo "Artifactory Step"
+            }
+            }
+        }
         stage('Archive') { 
             steps {
                 echo "Archiving Artifacts..."
