@@ -17,6 +17,7 @@ pipeline {
                 withSonarQubeEnv('sonarqube') {
                 sh "/var/lib/jenkins/tools/hudson.plugins.sonar.SonarRunnerInstallation/null/bin/sonar-scanner"
             }
+            }
         }    
         stage('Archive') { 
             steps {
