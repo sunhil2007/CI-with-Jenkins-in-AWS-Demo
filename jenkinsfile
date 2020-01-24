@@ -1,7 +1,7 @@
 pipeline {
     agent any
-    def rtServer=Artifactory.server 'ART'
-    def rtMaven=Artifactory.newMavenBuild()
+    def rtServer = Artifactory.server 'ART'
+    def rtMaven = Artifactory.newMavenBuild()
     stages {
         stage('Build') { 
             steps {
