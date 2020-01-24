@@ -28,6 +28,11 @@ pipeline {
         stage('Artifactory') {
             steps {
                 echo "Artifactory Step"
+                script{
+                def iServer = Artifactory.server 'ART'
+                def iMaven = Artifactory.newMavenBuild()   
+                iMaven.deployer serverId: iServer,releaseRepo: 'libs-release-local', snapshotRepo: 'libs-snapshot-local'
+               }
                 
             }
         }
