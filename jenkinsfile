@@ -34,7 +34,7 @@ pipeline {
                 iMaven.deployer server: iServer,releaseRepo: 'libs-release-local', snapshotRepo: 'libs-snapshot-local'
                 iMaven.deployer.deployArtifacts = false
                 rtPublishBuildInfo (
-                    serverId: iServer
+                    serverId: 'ART'
                 )
                }
                 
