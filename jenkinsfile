@@ -30,7 +30,8 @@ pipeline {
                 echo "Artifactory Step"
                 script{
                 def iServer = Artifactory.server 'ART'
-                def iMaven = Artifactory.newMavenBuild()   
+                def iMaven = Artifactory.newMavenBuild()
+                def buildInfo = Artifactory.newBuildInfo()
                 iMaven.deployer server: iServer,releaseRepo: 'libs-release-local', snapshotRepo: 'libs-snapshot-local'
                 iMaven.deployer.deployArtifacts = false
                 iMaven.deployer.deployArtifacts buildInfo
