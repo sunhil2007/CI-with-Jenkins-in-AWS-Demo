@@ -28,10 +28,6 @@ pipeline {
         stage('Artifactory') {
             steps {
                 echo "Artifactory Step"
-                
-
-
-                
                 script{
                 def iServer = Artifactory.server 'ART'
                 def iMaven = Artifactory.newMavenBuild()
@@ -43,6 +39,17 @@ pipeline {
                     server: 'ART',
                     releaseRepo: 'libs-release-local',
                     snapshotRepo: 'libs-snapshot-local'
+                )
+                rtUpload (
+                    serverId: 'ART',
+                        spec: '''{
+                          "files": [
+                                    {
+                                      "pattern": "*.war",
+                                      "target": "project/target/"
+                                    }
+                                     ]
+                            }'''
                 )
                 buildInfo.env.capture = true
                 buildInfo.env.collect()
