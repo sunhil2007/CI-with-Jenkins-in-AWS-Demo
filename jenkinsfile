@@ -28,9 +28,14 @@ pipeline {
         stage('Artifactory') {
             steps {
                 echo "Artifactory Step"
+                
+
+
+                
                 script{
                 def iServer = Artifactory.server 'ART'
                 def iMaven = Artifactory.newMavenBuild()
+                def buildInfo = Artifactory.newBuildInfo()
                 iMaven.deployer server: iServer,releaseRepo: 'libs-release-local', snapshotRepo: 'libs-snapshot-local'
                 iMaven.deployer.deployArtifacts = true
                 rtMavenDeployer (
@@ -39,9 +44,9 @@ pipeline {
                     releaseRepo: 'libs-release-local',
                     snapshotRepo: 'libs-snapshot-local'
                 )
-                rtPublishBuildInfo (
-                    serverId: 'ART'
-                )
+                buildInfo.env.capture = true
+                buildInfo.env.collect()
+                iServer.publishBuildInfo buildInfo
                }
                 
             }
