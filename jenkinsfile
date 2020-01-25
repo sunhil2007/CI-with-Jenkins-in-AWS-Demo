@@ -33,6 +33,12 @@ pipeline {
                 def iMaven = Artifactory.newMavenBuild()
                 iMaven.deployer server: iServer,releaseRepo: 'libs-release-local', snapshotRepo: 'libs-snapshot-local'
                 iMaven.deployer.deployArtifacts = true
+                rtMavenDeployer (
+                    id: '12',
+                    server: 'ART',
+                    releaseRepo: 'libs-release-local',
+                    snapshotRepo: 'libs-snapshot-local'
+                )
                 rtPublishBuildInfo (
                     serverId: 'ART'
                 )
