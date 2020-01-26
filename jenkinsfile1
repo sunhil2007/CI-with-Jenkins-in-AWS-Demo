@@ -63,8 +63,9 @@ pipeline {
         }
         stage('Deploy') { 
             steps {
-            	echo "Deploying code using pipeline.."               
-                deploy adapters: [tomcat9(credentialsId: 'Tomcat-Server', path: '', url: 'http://35.222.189.243:8080/')], contextPath: 'build_num', war: '**/*.war'
+            	echo "Deploying code using pipeline.."
+                echo build_num
+                deploy adapters: [tomcat9(credentialsId: 'Tomcat-Server', path: '', url: 'http://35.222.189.243:8080/')], contextPath: build_num, war: '**/*.war'
             }
         }
         
