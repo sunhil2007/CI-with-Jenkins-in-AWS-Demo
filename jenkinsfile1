@@ -3,6 +3,8 @@ pipeline {
     environment{
         rtMaven = Artifactory.newMavenBuild()
         rtServer = Artifactory.server 'ART'
+        buildInfo = Artifactory.newBuildInfo()
+        build_num=buildInfo.getNumber()
     }
     stages {
 
@@ -62,7 +64,7 @@ pipeline {
         stage('Deploy') { 
             steps {
             	echo "Deploying code using pipeline.."               
-                deploy adapters: [tomcat9(credentialsId: 'Tomcat-Server', path: '', url: 'http://35.222.189.243:8080/')], contextPath: '$BUILD_NUMBER', war: '**/*.war'
+                deploy adapters: [tomcat9(credentialsId: 'Tomcat-Server', path: '', url: 'http://35.222.189.243:8080/')], contextPath: 'build_num', war: '**/*.war'
             }
         }
         
