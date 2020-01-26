@@ -15,9 +15,7 @@ pipeline {
                     releaseRepo: "libs-release-local",
                     snapshotRepo: "libs-snapshot-local"
                 )
-                rtBuildInfo (
-                    captureEnv: true
-                )    
+                rtBuildInfo ( captureEnv: true )    
             }
         }
         stage ('Exec Maven') {
@@ -28,42 +26,31 @@ pipeline {
                     goals: 'clean package',
                     deployerId: "MAVEN_DEPLOYER"
                 )
-            }
-        }
-
+        }}
         stage ('Publish build info') {
             steps {        
-                rtPublishBuildInfo (
-                    serverId: 'ART'
-                )
-            }
-        }
+                rtPublishBuildInfo (serverId: 'ART')
+        }}
         stage('Test') { 
             steps {
                 echo "Testing code using pipeline.."
                 junit(allowEmptyResults: true, testResults: '**/target/surefire-reports/TEST-*.xml')
-            }
-        }
+        }}
         stage('Sonarqube') {
             steps {
                 withSonarQubeEnv('Superleague-Sprint-3') {
                 sh "/var/lib/jenkins/tools/hudson.plugins.sonar.SonarRunnerInstallation/null/bin/sonar-scanner"
             }
-            }
-        }
+        }}
         stage('Archive') { 
             steps {
                 echo "Archiving Artifacts..."
                 archiveArtifacts 'project/target/*.war'
-            }
-        }
+        }}
         stage('Deploy') { 
             steps {
             	echo "Deploying code using pipeline.."
-                echo build_num
                 deploy adapters: [tomcat9(credentialsId: 'Tomcat-Server', path: '', url: 'http://35.222.189.243:8080/')], contextPath: build_num, war: '**/*.war'
-            }
-        }
-        
+        }}        
     }
 }
