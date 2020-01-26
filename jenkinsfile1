@@ -29,7 +29,10 @@ pipeline {
         }
 
         stage ('Publish build info') {
-            steps {
+            steps {        
+                rtBuildInfo (
+                    captureEnv: true
+                )
                 rtPublishBuildInfo (
                     serverId: 'ART'
                 )
