@@ -6,16 +6,41 @@ pipeline {
     }
     stages {
 
-        stage('Build') { 
+        stage ('Artifactory configuration') {
             steps {
-                echo "Building code using pipeline.."
-                sh "mvn clean package"
-                junit(allowEmptyResults: true, testResults: '**/target/surefire-reports/TEST-*.xml')
+                rtMavenDeployer (
+                    id: "MAVEN_DEPLOYER",
+                    serverId: 'ART',
+                    releaseRepo: "libs-release-local",
+                    snapshotRepo: "libs-snapshot-local"
+                )
             }
         }
+
+        stage ('Exec Maven') {
+            steps {
+                rtMavenRun (
+                    tool: 'Default', // Tool name from Jenkins configuration
+                    pom: 'pom.xml',
+                    goals: 'clean package',
+                    deployerId: "MAVEN_DEPLOYER"
+                )
+            }
+        }
+
+        stage ('Publish build info') {
+            steps {
+                rtPublishBuildInfo (
+                    serverId: "ARTIFACTORY_SERVER"
+                )
+            }
+        }
+        
+        
         stage('Test') { 
             steps {
                 echo "Testing code using pipeline.."
+                junit(allowEmptyResults: true, testResults: '**/target/surefire-reports/TEST-*.xml')
             }
         }
         stage('Sonarqube') {
@@ -23,28 +48,6 @@ pipeline {
                 withSonarQubeEnv('Superleague-Sprint-3') {
                 sh "/var/lib/jenkins/tools/hudson.plugins.sonar.SonarRunnerInstallation/null/bin/sonar-scanner"
             }
-            }
-        }
-        stage('Artifactory') {
-            steps {
-                echo "Artifactory Step"
-                script{
-                def iServer = Artifactory.server 'ART'
-                def iMaven = Artifactory.newMavenBuild()
-                def buildInfo = Artifactory.newBuildInfo()
-                iMaven.deployer server: iServer,releaseRepo: 'libs-release-local', snapshotRepo: 'libs-snapshot-local'
-                iMaven.deployer.deployArtifacts = true
-                rtMavenDeployer (
-                    id: '12',
-                    server: 'ART',
-                    releaseRepo: 'libs-release-local',
-                    snapshotRepo: 'libs-snapshot-local'
-                )
-                buildInfo.env.capture = true
-                buildInfo.env.collect()
-                iServer.publishBuildInfo buildInfo
-               }
-                
             }
         }
         stage('Archive') { 
